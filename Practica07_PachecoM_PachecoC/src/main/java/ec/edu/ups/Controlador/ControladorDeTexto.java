@@ -144,4 +144,15 @@ public class ControladorDeTexto {
         }
     }
 
+    
+    //metodo para comprobar si la ruta existe
+      public boolean comprobarRuta(String ruta) {
+        Fichero = new File(ruta);
+
+        if (Fichero.exists()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

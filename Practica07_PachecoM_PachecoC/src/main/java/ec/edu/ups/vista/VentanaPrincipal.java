@@ -5,8 +5,10 @@
  */
 package ec.edu.ups.vista;
 
+import ec.edu.ups.Controlador.ControladorDeTexto;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -15,11 +17,19 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    //Atributos 
+    private ControladorDeTexto controladorDeTexto;
+    
+    
+    String name;
     /**
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
         initComponents();
+        
+        name = null;
+        controladorDeTexto = new ControladorDeTexto();
     }
 
     /**
@@ -46,6 +56,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         txtRuta.setBackground(new java.awt.Color(204, 204, 255));
         txtRuta.setFont(new java.awt.Font("Times New Roman", 0, 10)); // NOI18N
+        txtRuta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutaKeyTyped(evt);
+            }
+        });
 
         btnBuscar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         btnBuscar.setText("Buscar Ruta");
@@ -57,6 +72,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         btnCrearArchivo.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         btnCrearArchivo.setText("Crear Archivo");
+        btnCrearArchivo.setEnabled(false);
+        btnCrearArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearArchivoActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         btnLimpiar.setText("Limpiar");
@@ -135,6 +156,52 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void txtRutaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutaKeyTyped
+       
+        btnCrearArchivo.setEnabled(true);
+    }//GEN-LAST:event_txtRutaKeyTyped
+
+    private void btnCrearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearArchivoActionPerformed
+        
+        String nombre = txtRuta.getText();
+
+        if (!nombre.contains(".")) {
+            do {
+                name = JOptionPane.showInputDialog(this, "Escriba el nombre del archivo:");
+
+            } while (name == null || controladorDeTexto.comprobar(txtRuta.getText(), name));
+
+            if (controladorDeTexto.comprobarRuta(txtRuta.getText())) {
+                String path = controladorDeTexto.crearFichero(txtRuta.getText(), name);
+                controladorDeTexto.encriptar(path, txtAreaTexto.getText());
+                JOptionPane.showMessageDialog(this, "Fichero creado y encriptado con exito");
+                limpiar();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Ruta incorrecta(intentelo de nuevo)");
+            }
+        } else {
+            if (controladorDeTexto.comprobarRuta(txtRuta.getText())) {
+                String path = txtRuta.getText();
+                controladorDeTexto.encriptar(path, txtAreaTexto.getText());
+                JOptionPane.showMessageDialog(this, "Fichero creado y encriptado con exito");
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ruta incorrecta(Vuela a buscar la ruta)");
+            }
+        }
+    }//GEN-LAST:event_btnCrearArchivoActionPerformed
+
+    
+    //metodo para limpar el txtAreaTexto despues de encriptar el archivo
+    public void limpiar() {
+        txtAreaTexto.setText("");
+        txtRuta.setText("");
+        btnCrearArchivo.setEnabled(false);
+
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
