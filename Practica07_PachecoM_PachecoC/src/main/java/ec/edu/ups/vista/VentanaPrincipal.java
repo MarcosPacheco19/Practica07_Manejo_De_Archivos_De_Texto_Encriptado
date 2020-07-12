@@ -21,14 +21,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ControladorDeTexto controladorDeTexto;
     
     
-    String name;
+    String nombre2;
     /**
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
         initComponents();
         
-        name = null;
+        nombre2 = null;
         controladorDeTexto = new ControladorDeTexto();
     }
 
@@ -167,12 +167,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         if (!nombre.contains(".")) {
             do {
-                name = JOptionPane.showInputDialog(this, "Escriba el nombre del archivo:");
+                nombre2 = JOptionPane.showInputDialog(this, "Escriba el nombre del archivo:");
 
-            } while (name == null || controladorDeTexto.comprobar(txtRuta.getText(), name));
+            } while (nombre2 == null || controladorDeTexto.comprobar(txtRuta.getText(), nombre2));
 
             if (controladorDeTexto.comprobarRuta(txtRuta.getText())) {
-                String path = controladorDeTexto.crearFichero(txtRuta.getText(), name);
+                String path = controladorDeTexto.crearFichero(txtRuta.getText(), nombre2);
                 controladorDeTexto.encriptar(path, txtAreaTexto.getText());
                 JOptionPane.showMessageDialog(this, "Fichero creado y encriptado con exito");
                 limpiar();

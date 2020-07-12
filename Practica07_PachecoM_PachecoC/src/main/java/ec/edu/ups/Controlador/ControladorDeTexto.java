@@ -32,12 +32,12 @@ public class ControladorDeTexto {
      public ControladorDeTexto() {
         Abecedario = new ArrayList<>();
         Diccionario = new HashMap<>();
-        Diccionario = crearDiccionario();
+        Diccionario = nuevoDiccionario();
     }
      
      
     //metodo para crear un diccionario
-      public Map<Character, Character> crearDiccionario() {
+      public Map<Character, Character> nuevoDiccionario() {
         //Declaracion de nuevas varibles
         String abe = "abcdefghijklmnñopqrstuvwxyz";
         String num = "0123456789";
